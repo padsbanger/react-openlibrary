@@ -18,6 +18,7 @@ export const BooksList: React.FC<BooksListProps> = ({ books }) => {
 };
 
 const BooksContainer = styled.div`
+  grid-gap: 1rem;
   display: grid;
   align-items: center;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

@@ -1,19 +1,18 @@
 import React from "react";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
-import { Book } from "./containers/Book/Book";
+import { BookView } from "./containers/Book/BookView";
 import { Home } from "./containers/Home/Home";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">Search books</header>
       <Router>
         <Switch>
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/book/:id">
-            <Book />
+          <Route path="/book/:id/:value">
+            <BookView />
           </Route>
           <Route path="*">
             <Home />

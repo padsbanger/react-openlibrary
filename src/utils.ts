@@ -1,33 +1,33 @@
-import Book from "./types/Book";
 import config from "./config";
+import Book, { Author } from "./types/Book";
 
 export type BookSize = "S" | "M" | "L";
 
-interface Style {
-  [key: string]: any;
-}
+export const getBookId = (book: Book) => {
+  const validKeys: Array<Extract<keyof Book, string>> = [
+    "lcc",
+    "lccn",
+    "isbn",
+    "olid",
+  ];
+  const validKey = validKeys.find((x) => x in book);
+  const validKeyValue = validKey && (book[validKey] as []);
+  if (validKeyValue && validKeyValue.length) {
+    return {
+      id: validKey,
+      value: validKeyValue.splice(0)[0],
+    };
+  }
+  return null;
+};
 
-export const generateBookCover = (book: Book, size: BookSize) => {
-  let validKey = "";
-  let validKeyValue = "";
-  if (book.lcc && book.lcc?.length) {
-    validKey = "lcc";
-    validKeyValue = book.lcc[0];
-  }
-  if (book.lccn && book.lccn?.length) {
-    validKey = "lccn";
-    validKeyValue = book.lccn[0];
-  }
-  if (book.isbn && book.isbn?.length) {
-    validKey = "isbn";
-    validKeyValue = book.isbn[0];
-  }
-  if (book.olid && book.olid?.length) {
-    validKey = "olid";
-    validKeyValue = book.olid[0];
-  }
-  return `${config.COVER_API}${validKey}/${validKeyValue}-${size}.jpg`;
-  // console.log(config.SEARCH_API)
+// I have basically gave up here, please roast me.
+export const generateBookCover = (bookId: any, size: BookSize) => {
+  return `${config.COVER_API}${bookId.id}/${bookId.value}-${size}.jpg`;
+};
+
+export const getAuthors = (book: Book) => {
+  return book.authors?.map((author: Author) => author.name).join(", ");
 };
 
 export default generateBookCover;

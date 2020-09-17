@@ -8,6 +8,14 @@ interface Book {
   lcc?: string[];
   lccn?: string[];
   olid?: string[];
+  number_of_pages?: number;
+  publish_date?: string;
+  authors?: Author[];
+}
+
+export interface Author {
+  name: string;
+  key: string;
 }
 
 export type BookSize = "S" | "M" | "L";
