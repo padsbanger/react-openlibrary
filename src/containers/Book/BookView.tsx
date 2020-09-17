@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 import config from "../../config";
@@ -16,9 +16,10 @@ export const BookView: React.FC = () => {
   const [currentBook, setCurrentBook] = useState<Book | undefined>(undefined);
   const [loadingBookData, setLoadingBookData] = useState<boolean>(false);
 
+  const bookId = `${id.toUpperCase()}:${value.toUpperCase()}`;
+
   const renderBookDetails = () => {
     if (currentBook) {
-      console.log(currentBook);
       return (
         <div>
           <ul>
@@ -33,30 +34,22 @@ export const BookView: React.FC = () => {
     return null;
   };
 
-  const getBookInfo = () => {
+  const getBookInfo = useCallback(() => {
     setLoadingBookData(true);
-    fetch(
-      `${
-        config.SINGLE_BOOK_API
-      }${id.toUpperCase()}:${value.toUpperCase()}&format=json&details=true`
-    )
+    fetch(`${config.SINGLE_BOOK_API}${bookId}&format=json&details=true`)
       .then((response) => response.json())
       .then((data) => {
         setLoadingBookData(false);
-        setCurrentBook(
-          data[`${id.toUpperCase()}:${value.toUpperCase()}`].details
-        );
+        setCurrentBook(data[`${bookId}`].details);
       })
       .catch((e) => {
         setLoadingBookData(false);
       });
-  };
+  }, [bookId]);
 
   useEffect(() => {
     getBookInfo();
-  }, []);
-
-  console.log(currentBook);
+  }, [getBookInfo]);
 
   return (
     <StyledBookContainer>
@@ -86,6 +79,7 @@ const StyledBookDetails = styled.div`
   margin: 1rem 0;
   img {
     width: 230px;
+    border: 1px solid #ccc;
   }
   ul {
     margin: 0;

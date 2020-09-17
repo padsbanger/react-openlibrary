@@ -1,8 +1,9 @@
 interface Book {
   title: string;
-  author_name: string[];
   key: string;
   first_publish_year: number;
+  authors?: Author[];
+  author_name?: string;
   first_sentence?: string;
   isbn?: string[];
   lcc?: string[];
@@ -10,7 +11,6 @@ interface Book {
   olid?: string[];
   number_of_pages?: number;
   publish_date?: string;
-  authors?: Author[];
 }
 
 export interface Author {

@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 
 import config from "../../config";
-
 import SearchInput from "../../components/SearchInput";
 
 import useDebounce from "../../hooks/useDebounce";
@@ -48,7 +47,7 @@ export function Home() {
     if (debouncedSearchTerm.length && debouncedSearchTerm.length > 3) {
       handleSearch();
     }
-  }, [debouncedSearchTerm, page]);
+  }, [debouncedSearchTerm, page, handleSearch]);
 
   return (
     <>
